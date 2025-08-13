@@ -17,28 +17,39 @@ dependencies:
     sdk: flutter
 
   # --- Gerenciamento de Estado ---
+  # Para gerenciar o estado do aplicativo de forma reativa.
   provider: ^6.1.2
 
   # --- Rede e HTTP ---
+  # Para fazer chamadas a APIs externas (ex: MacVendor).
   http: ^1.2.1
+  # Para comunicação em tempo real com o agente no roteador.
   web_socket_channel: ^2.4.1
-  # CORREÇÃO: Nome do pacote corrigido de 'port_scanner' para 'lan_scanner'.
+  # Para a funcionalidade de scan de portas na análise de segurança.
   lan_scanner: ^2.0.1
 
   # --- Persistência de Dados ---
+  # Banco de dados local para salvar dispositivos, eventos, etc.
   sqflite: ^2.3.2
+  # Helper para lidar com caminhos de arquivos do sistema.
   path: ^1.9.0
+  # Para salvar pequenas configurações do usuário (ex: tema, status de login).
   shared_preferences: ^2.2.2
 
   # --- Utilitários e Permissões ---
+  # Para solicitar permissões do sistema (Localização, Notificações).
   permission_handler: ^11.3.1
+  # Para a funcionalidade de listar apps instalados na tela de Segurança do Celular.
   installed_apps: ^1.3.1
+  # Para formatar datas de forma amigável (ex: "há 5 minutos") no feed de eventos.
   timeago: ^3.6.1
 
   # --- UI e Ícones ---
+  # Ícones padrão do iOS.
   cupertino_icons: ^1.0.2
   
   # --- Dependência de Mapa ---
+  # A dependência 'latlong2' será resolvida automaticamente por este pacote.
   flutter_map: ^6.1.0
 
 
@@ -59,5 +70,3 @@ flutter:
   # Descomente e adicione seus assets aqui quando os tiver.
   # assets:
   #   - assets/images/logo.png
-  #   - assets/images/apple_health_logo.png
-  #   - assets/images/google_fit_logo.png
