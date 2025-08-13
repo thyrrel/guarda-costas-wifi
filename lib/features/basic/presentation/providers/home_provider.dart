@@ -1,4 +1,4 @@
-"import 'dart:convert';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:guarda_costas_wifi/data/models/network_device_model.dart';
@@ -60,7 +60,7 @@ class HomeProvider extends ChangeNotifier {
           _devices.add(enrichedDevice);
         }
       }
-      _userMessage = \"Lista de dispositivos atualizada.\";
+      _userMessage = "Lista de dispositivos atualizada.";
       _isErrorMessage = false;
     } catch (e) {
       _userMessage = e.toString();
@@ -76,11 +76,11 @@ class HomeProvider extends ChangeNotifier {
       final index = _devices.indexWhere((d) => d.macAddress == macAddress);
       if (index != -1) {
         _devices[index] = _devices[index].copyWith(isBlocked: true);
-        _userMessage = \"Dispositivo bloqueado com sucesso!\";
+        _userMessage = "Dispositivo bloqueado com sucesso!";
         _isErrorMessage = false;
       }
     } else {
-      _userMessage = \"Falha ao bloquear dispositivo.\";
+      _userMessage = "Falha ao bloquear dispositivo.";
       _isErrorMessage = true;
     }
     notifyListeners();
@@ -92,11 +92,11 @@ class HomeProvider extends ChangeNotifier {
       final index = _devices.indexWhere((d) => d.macAddress == macAddress);
       if (index != -1) {
         _devices[index] = _devices[index].copyWith(isBlocked: false);
-        _userMessage = \"Dispositivo desbloqueado com sucesso!\";
+        _userMessage = "Dispositivo desbloqueado com sucesso!";
         _isErrorMessage = false;
       }
     } else {
-      _userMessage = \"Falha ao desbloquear dispositivo.\";
+      _userMessage = "Falha ao desbloquear dispositivo.";
       _isErrorMessage = true;
     }
     notifyListeners();
@@ -139,7 +139,7 @@ class HomeProvider extends ChangeNotifier {
     try {
       _channel = WebSocketChannel.connect(Uri.parse('ws://127.0.0.1:8080/ws'));
       _isAgentConnected = true;
-      _userMessage = \"Sincronização com o roteador ativa!\";
+      _userMessage = "Sincronização com o roteador ativa!";
       _isErrorMessage = false;
       notifyListeners();
 
@@ -149,20 +149,20 @@ class HomeProvider extends ChangeNotifier {
         },
         onDone: () {
           _isAgentConnected = false;
-          _userMessage = \"Sincronização com o roteador perdida.\";
+          _userMessage = "Sincronização com o roteador perdida.";
           _isErrorMessage = true;
           notifyListeners();
         },
         onError: (error) {
           _isAgentConnected = false;
-          _userMessage = \"Erro na sincronização: $error\";
+          _userMessage = "Erro na sincronização: $error";
           _isErrorMessage = true;
           notifyListeners();
         },
       );
     } catch (e) {
       _isAgentConnected = false;
-      _userMessage = \"Não foi possível conectar ao agente.\";
+      _userMessage = "Não foi possível conectar ao agente.";
       _isErrorMessage = true;
       notifyListeners();
     }
@@ -183,7 +183,7 @@ class HomeProvider extends ChangeNotifier {
         final index = _devices.indexWhere((d) => d.macAddress == payload['macAddress']);
         if (index != -1) {
           _devices[index] = _devices[index].copyWith(isBlocked: payload['isBlocked']);
-          _userMessage = \"Estado do dispositivo ${payload['macAddress']} atualizado em tempo real.\";
+          _userMessage = "Estado do dispositivo ${payload['macAddress']} atualizado em tempo real.";
           _isErrorMessage = false;
           notifyListeners();
         }
@@ -192,15 +192,15 @@ class HomeProvider extends ChangeNotifier {
         final newDevice = NetworkDeviceModel.fromJson(payload);
         _devices.removeWhere((d) => d.macAddress == newDevice.macAddress);
         _devices.add(newDevice);
-        _userMessage = \"Novo dispositivo detectado na rede!\";
+        _userMessage = "Novo dispositivo detectado na rede!";
         _isErrorMessage = false;
         _dbService.addEvent(
           'device_connected',
-          \"Novo dispositivo '${payload['hostname']}' (${payload['macAddress']}) conectou-se à rede.\",
+          "Novo dispositivo '${payload['hostname']}' (${payload['macAddress']}) conectou-se à rede.",
           macAddress: payload['macAddress'],
         );
         notifyListeners();
         break;
     }
   }
-}"
+}
