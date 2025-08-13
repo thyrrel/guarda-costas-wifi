@@ -1,4 +1,4 @@
-"import 'package:guarda_costas_wifi/data/datasources/network_datasource.dart';
+import 'package:guarda_costas_wifi/data/datasources/network_datasource.dart';
 import 'package:guarda_costas_wifi/data/models/network_device_model.dart';
 import 'package:guarda_costas_wifi/api/mac_vendor_api.dart';
 
@@ -27,4 +27,4 @@ class NetworkRepository {
   Future<bool> unblockDevice(String macAddress) async {
     return await _dataSource.unblockDevice(macAddress);
   }
-}"
+}
