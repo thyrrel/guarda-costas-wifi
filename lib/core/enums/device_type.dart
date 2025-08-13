@@ -1,0 +1,12 @@
+enum DeviceType {
+  ROUTER,
+  PHONE,
+  LAPTOP,
+  DESKTOP,
+  TABLET,
+  TV,
+  CAMERA,
+  PRINTER,
+  IOT_GENERIC,
+  UNKNOWN
+}
