@@ -1,4 +1,4 @@
-"import 'package:guarda_costas_wifi/core/enums/device_type.dart';
+import 'package:guarda_costas_wifi/core/enums/device_type.dart';
 
 class NetworkDeviceModel {
   final String id;
@@ -69,4 +69,4 @@ class NetworkDeviceModel {
       lastSeen: DateTime.now(),
     );
   }
-}"
+}
