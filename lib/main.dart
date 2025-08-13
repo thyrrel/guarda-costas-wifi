@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:guarda_costas_wifi/config/routes/app_router.dart';
-import 'package:guarda_costas_wifi/config/theme/app_theme.dart';
-import 'package:guarda_costas_wifi/presentation/providers/theme_provider.dart';
-import 'package:guarda_costas_wifi/presentation/providers/auth_provider.dart';
-import 'package:guarda_costas_wifi/presentation/providers/agent_provider.dart';
-import 'package:guarda_costas_wifi/features/basic/presentation/providers/home_provider.dart';
-import 'package:guarda_costas_wifi/features/device_security/presentation/providers/device_security_provider.dart';
-import 'package:guarda_costas_wifi/features/vip/presentation/providers/vip_provider.dart';
-import 'package:guarda_costas_wifi/presentation/screens/login_screen.dart';
-import 'package:guarda_costas_wifi/presentation/screens/main_scaffold.dart';
-import 'package:guarda_costas_wifi/core/widgets/loading_indicator.dart';
+import 'package:guarda_costas_wifi/core/providers/wifi_provider.dart';
+import 'package:guarda_costas_wifi/core/providers/location_provider.dart';
+import 'package:guarda_costas_wifi/core/providers/monitoring_provider.dart';
+import 'package:guarda_costas_wifi/core/services/notification_service.dart';
+import 'package:guarda_costas_wifi/core/utils/app_theme.dart';
+import 'package:guarda_costas_wifi/features/home/presentation/pages/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize notification service
+  await NotificationService.initialize();
+  
   runApp(const MyApp());
 }
 
@@ -23,45 +23,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => AgentProvider()),
-        ChangeNotifierProvider(create: (_) => HomeProvider()),
-        ChangeNotifierProvider(create: (_) => DeviceSecurityProvider()),
-        ChangeNotifierProvider(create: (_) => VipProvider()),
+        ChangeNotifierProvider(create: (_) => WifiProvider()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
+        ChangeNotifierProvider(create: (_) => MonitoringProvider()),
       ],
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
-          return MaterialApp(
-            title: 'Guarda-Costas WiFi',
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.lightTheme(themeProvider.primaryColor),
-            darkTheme: AppTheme.darkTheme(themeProvider.primaryColor),
-            themeMode: themeProvider.themeMode,
-            home: const AuthWrapper(),
-            onGenerateRoute: AppRouter.generateRoute,
-          );
-        },
+      child: MaterialApp(
+        title: 'Guarda-Costas WiFi',
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: ThemeMode.system,
+        home: const HomePage(),
+        debugShowCheckedModeBanner: false,
       ),
-    );
-  }
-}
-
-class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(
-      builder: (context, authProvider, child) {
-        if (authProvider.isLoading) {
-          return const Scaffold(body: LoadingIndicator());
-        }
-        if (authProvider.isLoggedIn) {
-          return const MainScaffold();
-        }
-        return const LoginScreen();
-      },
     );
   }
 }
