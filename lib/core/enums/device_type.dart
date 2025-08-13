@@ -1,4 +1,4 @@
-enum DeviceType {
+"enum DeviceType {
   ROUTER,
   PHONE,
   LAPTOP,
@@ -9,4 +9,4 @@ enum DeviceType {
   PRINTER,
   IOT_GENERIC,
   UNKNOWN
-}
+}"
