@@ -1,0 +1,103 @@
+name: Build e Teste do App Android
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      PATH: $PATH:/usr/local/lib/android/sdk/platform-tools
+
+    steps:
+      # 1. Clonar o repositório (mesmo método do antigo)
+      - name: 1. Clonar o repositório
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # 2. Configurar o ambiente Java
+      - name: 2. Configurar o ambiente Java (JDK)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Configurar o ambiente Flutter
+      - name: 3. Configurar o ambiente Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.5'
+          channel: 'stable'
+          cache: true
+
+      # 4. Cache do Pub
+      - name: 4. Cache do Pub
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      # 5. Cache do Gradle
+      - name: 5. Cache do Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      # 6. Restaurar Keystore para assinatura
+      - name: 6. Restaurar Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/release.keystore
+
+      # 7. Criar arquivo key.properties
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+          echo "storeFile=release.keystore" >> android/key.properties
+
+      # 8. Instalar dependências
+      - name: 8. Instalar dependências
+        run: flutter pub get
+
+      # 9. Analisar o código
+      - name: 9. Analisar o código (Lint)
+        run: flutter analyze
+
+      # 10. Executar testes
+      - name: 10. Executar testes
+        run: flutter test
+
+      # 11. Compilar APK assinado (release)
+      - name: 11. Compilar APK assinado (release)
+        run: flutter build apk --release
+
+      # 12. Compilar AAB assinado (release)
+      - name: 12. Compilar AAB assinado (release)
+        run: flutter build appbundle --release
+
+      # 13. Upload APK assinado
+      - name: 13. Fazer upload do APK assinado
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      # 14. Upload AAB assinado
+      - name: 14. Fazer upload do AAB assinado
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: build/app/outputs/bundle/release/app-release.aab
