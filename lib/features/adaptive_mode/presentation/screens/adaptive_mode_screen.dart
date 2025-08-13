@@ -1,4 +1,4 @@
-"import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:guarda_costas_wifi/features/adaptive_mode/domain/services/adaptive_learning_service.dart';
 import 'package:guarda_costas_wifi/core/widgets/loading_indicator.dart';
 
@@ -22,13 +22,13 @@ class _AdaptiveModeScreenState extends State<AdaptiveModeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(\"Modo Adaptativo da IA\")),
+      appBar: AppBar(title: const Text("Modo Adaptativo da IA")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Text(
-              \"Nossa IA aprende com seus hábitos e sugere automações para tornar sua vida mais fácil e sua casa mais eficiente. Aprove as sugestões que gostar.\",
+              "Nossa IA aprende com seus hábitos e sugere automações para tornar sua vida mais fácil e sua casa mais eficiente. Aprove as sugestões que gostar.",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
@@ -41,7 +41,7 @@ class _AdaptiveModeScreenState extends State<AdaptiveModeScreen> {
                     return const LoadingIndicator();
                   }
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text(\"Nenhuma sugestão nova no momento.\"));
+                    return const Center(child: Text("Nenhuma sugestão nova no momento."));
                   }
                   final patterns = snapshot.data!;
                   return ListView.builder(
@@ -62,11 +62,11 @@ class _AdaptiveModeScreenState extends State<AdaptiveModeScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  TextButton(child: const Text(\"Ignorar\"), onPressed: () {}),
+                                  TextButton(child: const Text("Ignorar"), onPressed: () {}),
                                   const SizedBox(width: 8),
                                   FilledButton.icon(
                                     icon: const Icon(Icons.auto_awesome, size: 18),
-                                    label: const Text(\"Criar Automação\"),
+                                    label: const Text("Criar Automação"),
                                     onPressed: () {},
                                   ),
                                 ],
@@ -85,4 +85,4 @@ class _AdaptiveModeScreenState extends State<AdaptiveModeScreen> {
       ),
     );
   }
-}"
+}
