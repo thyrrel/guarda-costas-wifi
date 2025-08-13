@@ -1,45 +1,75 @@
 name: guarda_costas_wifi
-description: A Flutter application for WiFi monitoring and coastal guard operations
-publish_to: none
+description: "Um aplicativo completo para segurança e gerenciamento de rede e casa inteligente."
+
+# Previne a publicação acidental no pub.dev.
+publish_to: 'none' 
+
+# A versão do seu aplicativo.
 version: 1.0.0+1
+
+# Configuração do ambiente Dart/Flutter.
 environment:
-  sdk: '>=3.0.0 <4.0.0'
-  flutter: '>=3.10.0'
+  sdk: '>=3.2.3 <4.0.0'
+
+# Lista de dependências do projeto.
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
-  http: ^1.1.0
-  wifi_iot: ^0.3.18
-  network_info_plus: ^4.0.2
-  permission_handler: ^11.0.1
-  geolocator: ^9.0.2
-  provider: ^6.0.5
+
+  # --- Gerenciamento de Estado ---
+  # Para gerenciar o estado do aplicativo de forma reativa.
+  provider: ^6.1.2
+
+  # --- Rede e HTTP ---
+  # Para fazer chamadas a APIs externas (ex: MacVendor).
+  http: ^1.2.1
+  # Para comunicação em tempo real com o agente no roteador.
+  web_socket_channel: ^2.4.1
+  # Para a funcionalidade de scan de portas na análise de segurança.
+  port_scanner: ^2.0.0
+
+  # --- Persistência de Dados ---
+  # Banco de dados local para salvar dispositivos, eventos, etc.
+  sqflite: ^2.3.2
+  # Helper para lidar com caminhos de arquivos do sistema.
+  path: ^1.9.0
+  # Para salvar pequenas configurações do usuário (ex: tema, status de login).
   shared_preferences: ^2.2.2
-  flutter_blue_plus: ^1.14.3
-  connectivity_plus: ^5.0.1
-  flutter_local_notifications: ^15.1.1
-  workmanager: ^0.5.1
-  sqflite: ^2.3.0
-  path: ^1.8.3
-  intl: ^0.18.1
+
+  # --- Utilitários e Permissões ---
+  # Para solicitar permissões do sistema (Localização, Notificações).
+  permission_handler: ^11.3.1
+  # Para a funcionalidade de listar apps instalados na tela de Segurança do Celular.
+  installed_apps: ^1.3.1
+  # Para formatar datas de forma amigável (ex: "há 5 minutos") no feed de eventos.
+  timeago: ^3.6.1
+
+  # --- UI e Ícones ---
+  # Ícones padrão do iOS.
+  cupertino_icons: ^1.0.2
+  
+  # --- Dependência de Mapa ---
+  # CORREÇÃO: Apenas a dependência principal é declarada.
+  # A dependência 'latlong2' será resolvida automaticamente por este pacote.
   flutter_map: ^6.1.0
-  latlong2: ^0.8.1
-  json_annotation: ^4.8.1
+
+
+# Dependências usadas apenas durante o desenvolvimento.
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
-  json_serializable: ^6.7.1
-  build_runner: ^2.4.7
+
+  # Ferramenta de análise de código para garantir boas práticas.
+  flutter_lints: ^3.0.1
+
+# Configurações específicas do Flutter.
 flutter:
+  # Habilita o uso do Material Design.
   uses-material-design: true
-  assets:
-    - assets/images/
-    - assets/icons/
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto-Regular.ttf
-        - asset: assets/fonts/Roboto-Bold.ttf
-          weight: 700
+
+  # Seção para declarar assets (imagens, fontes, etc.).
+  # Descomente e adicione seus assets aqui quando os tiver.
+  # assets:
+  #   - assets/images/logo.png
+  #   - assets/images/apple_health_logo.png
+  #   - assets/images/google_fit_logo.png
