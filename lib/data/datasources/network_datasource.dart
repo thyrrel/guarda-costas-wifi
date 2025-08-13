@@ -1,4 +1,4 @@
-"import 'dart:convert';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:guarda_costas_wifi/data/models/network_device_model.dart';
 
@@ -22,7 +22,7 @@ class NetworkDataSourceImpl implements NetworkDataSource {
         throw Exception('Falha ao comunicar com o agente: ${response.statusCode}');
       }
     } catch (e) {
-      print(\"Erro em discoverDevices (agente): $e\");
+      print("Erro em discoverDevices (agente): $e");
       throw Exception('Não foi possível conectar ao agente. Verifique se ele está ativo.');
     }
   }
@@ -54,4 +54,4 @@ class NetworkDataSourceImpl implements NetworkDataSource {
       return false;
     }
   }
-}"
+}
