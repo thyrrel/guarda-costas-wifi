@@ -27,6 +27,8 @@ dependencies:
   web_socket_channel: ^2.4.1
   # Para a funcionalidade de scan de portas na análise de segurança.
   lan_scanner: ^2.0.1
+  # ADICIONADO: Para funcionalidade de ping ICMP (Android Embedding v2 compatível)
+  flutter_icmp_ping: ^2.1.2
 
   # --- Persistência de Dados ---
   # Banco de dados local para salvar dispositivos, eventos, etc.
