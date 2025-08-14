@@ -1,0 +1,59 @@
+# Nome do fluxo de trabalho
+name: Guarda-Costas WIFI
+
+# Gatilhos para iniciar o fluxo de trabalho
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Trabalhos a serem executados
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Clona o seu repositório para a máquina virtual
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Configura o ambiente Java (JDK 17)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Configura o ambiente Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.6' # Você pode manter esta versão
+          channel: 'stable'
+          cache: true
+
+      # 4. Instala as dependências do projeto
+      # CORREÇÃO: Removido 'working-directory'. O comando agora roda na raiz do projeto.
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. (Opcional, mas recomendado) Analisa o código
+      - name: Analyze code
+        run: flutter analyze
+
+      # 6. (Opcional, mas recomendado) Executa os testes
+      - name: Run tests
+        run: flutter test
+
+      # 7. Compila o APK de produção (release)
+      # CORREÇÃO: Removido 'working-directory'.
+      - name: Build APK
+        run: flutter build apk --release
+
+      # 8. Faz o upload do APK como um artefato para download
+      # CORREÇÃO: O caminho foi ajustado para a estrutura de pastas padrão do Flutter.
+      - name: Upload APK to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
